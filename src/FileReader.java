@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class FileReader {
+
     ArrayList<String> readFileContents(String fileName) {
         String path = "./resources/" + fileName;
         try {
