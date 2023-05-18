@@ -18,7 +18,7 @@ public class MonthlyReport {
             double sum = 0;
             for (int j = 0; j < monthlyReports.get(i).size(); j++) {
                 String[] arr = monthlyReports.get(i).get(j).split(",");
-                if (arr[1].equals("TRUE")) {
+                if (Boolean.parseBoolean(arr[1])) {
                     sum -= (Double.parseDouble(arr[2]) * Double.parseDouble(arr[3]));
                 } else {
                     sum += (Double.parseDouble(arr[2]) * Double.parseDouble(arr[3]));

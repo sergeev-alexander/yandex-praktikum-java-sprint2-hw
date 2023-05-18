@@ -27,7 +27,7 @@ public class ReportEngine {
         double expenses = 0;
         for (int i = 0; i < monthQuantity; i++) {
             String[] arr = yearlyList.get(i).split(",");
-            if (arr[2].equals("true")) {
+            if (Boolean.parseBoolean(arr[2])) {
                 expenses += Double.parseDouble(arr[1]);
             } else {
                 income += Double.parseDouble(arr[1]);
@@ -46,13 +46,13 @@ public class ReportEngine {
             double maxProfit = 0;
             for (int j = 0; j < map.get(i).size(); j++) {
                 String[] arr = map.get(i).get(j).split(",");
-                if (arr[1].equals("TRUE")) {
+                if (Boolean.parseBoolean(arr[1])) {
                     if (Integer.parseInt(arr[2]) * Double.parseDouble(arr[3]) > maxExpense) {
                         maxExpense = (Integer.parseInt(arr[2]) * Double.parseDouble(arr[3]));
                         maxExpenseArticle = arr[0];
                     }
                 } else {
-                    if (Integer.parseInt(arr[2]) * Double.parseDouble(arr[3]) > maxExpense) {
+                    if (Integer.parseInt(arr[2]) * Double.parseDouble(arr[3]) > maxProfit) {
                         maxProfit = (Integer.parseInt(arr[2]) * Double.parseDouble(arr[3]));
                         maxProfitArticle = arr[0];
                     }

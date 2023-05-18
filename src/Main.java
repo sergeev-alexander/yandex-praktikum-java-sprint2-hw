@@ -112,14 +112,14 @@ public class Main {
             } else {
                 yearlyReport.yearlyList = list;
                 yearlyReport.yearlyList.remove(0);
-                System.out.println("Отчет за " + userInputYear + " считан и сохранен.");
+                System.out.println("Отчет за " + userInputYear + " год считан и сохранен.");
                 yearlyReport.profitLossMap = yearlyReport.yearlyListToProfitLossMap(yearlyReport.yearlyList);
                 yearlyReport.yearOfReport = strCheck(userInputYear);
             }
         }
     }
 
-    public static String yearCheck(String userInputYear) {
+    private static String yearCheck(String userInputYear) {
         int year = strCheck(userInputYear);
         if (year > 1950 && year < 2050) {
             return "." + year;
