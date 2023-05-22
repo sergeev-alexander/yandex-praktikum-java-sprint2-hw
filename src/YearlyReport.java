@@ -10,29 +10,25 @@ public class YearlyReport {
         yearlyList = new ArrayList<>();
     }
 
-
-    public HashMap<Integer, Double> yearlyListToProfitLossMap(ArrayList<String> yearlyList) {
-        HashMap<Integer, Double> yearlyMap = new HashMap<>();
-        int num = 1;
-        double sum = 0;
-        for (int i = 0; i < yearlyList.size() - 1; i += 2) {
-            String[] arr1 = yearlyList.get(i).split(",");
-            if (Boolean.parseBoolean(arr1[2])) {
-                sum -= Double.parseDouble(arr1[1]);
+    public void loadYearlyReport(Scanner sc, FileReader fileReader, ReportEngine reportEngine) {
+        System.out.println("За какой год считать годовой отчет?\nВведите год в формате \"YYYY\"");
+        String userInputYear = sc.nextLine();
+        String yearReportName = Interaction.yearCheck(userInputYear);
+        if (yearReportName.equals("ERROR")) {
+            System.out.println("[" + userInputYear + "] - неверный формат года!");
+        } else {
+            String fileName = "y" + yearReportName + ".csv";
+            ArrayList<String> list = fileReader.readFileContents(fileName);
+            if (list.isEmpty()) {
+                System.out.println("Попробуйте снова!");
             } else {
-                sum += Double.parseDouble(arr1[1]);
+                yearlyList = list;
+                yearlyList.remove(0);
+                System.out.println("Отчет за " + userInputYear + " год считан и сохранен.");
+                profitLossMap = reportEngine.yearlyListToProfitLossMap(yearlyList);
+                yearOfReport = Interaction.strCheck(userInputYear);
             }
-            String[] arr2 = yearlyList.get(i + 1).split(",");
-            if (Boolean.parseBoolean(arr2[2])) {
-                sum -= Double.parseDouble(arr2[1]);
-            } else {
-                sum += Double.parseDouble(arr2[1]);
-            }
-            yearlyMap.put(num, sum);
-            sum = 0;
-            num++;
         }
-        return yearlyMap;
     }
 }
 

@@ -2,6 +2,51 @@ import java.util.*;
 
 public class ReportEngine {
 
+    public HashMap<Integer, Double> monthlyReportsToProfitLossMap(HashMap<Integer, ArrayList<String>> monthlyReports) {
+        HashMap<Integer, Double> resultMap = new HashMap<>();
+        for (int i = 1; i <= monthlyReports.size(); i++) {
+            double sum = 0;
+            if (monthlyReports.get(i).isEmpty()) {
+                resultMap.put(i, sum);
+                continue;
+            }
+            for (int j = 0; j < monthlyReports.get(i).size(); j++) {
+                String[] arr = monthlyReports.get(i).get(j).split(",");
+                if (Boolean.parseBoolean(arr[1])) {
+                    sum -= (Double.parseDouble(arr[2]) * Double.parseDouble(arr[3]));
+                } else {
+                    sum += (Double.parseDouble(arr[2]) * Double.parseDouble(arr[3]));
+                }
+            }
+            resultMap.put(i, sum);
+        }
+        return resultMap;
+    }
+
+    public HashMap<Integer, Double> yearlyListToProfitLossMap(ArrayList<String> yearlyList) {
+        HashMap<Integer, Double> yearlyMap = new HashMap<>();
+        int num = 1;
+        double sum = 0;
+        for (int i = 0; i < yearlyList.size() - 1; i += 2) {
+            String[] arr1 = yearlyList.get(i).split(",");
+            if (Boolean.parseBoolean(arr1[2])) {
+                sum -= Double.parseDouble(arr1[1]);
+            } else {
+                sum += Double.parseDouble(arr1[1]);
+            }
+            String[] arr2 = yearlyList.get(i + 1).split(",");
+            if (Boolean.parseBoolean(arr2[2])) {
+                sum -= Double.parseDouble(arr2[1]);
+            } else {
+                sum += Double.parseDouble(arr2[1]);
+            }
+            yearlyMap.put(num, sum);
+            sum = 0;
+            num++;
+        }
+        return yearlyMap;
+    }
+
     public void verifyReports(HashMap<Integer, Double> yearMap, HashMap<Integer, Double> monthMap) {
         boolean isEqual = Objects.equals(yearMap, monthMap);
         if (isEqual) {
@@ -9,7 +54,7 @@ public class ReportEngine {
         } else {
             for (int i = 1; i <= yearMap.size(); i++) {
                 if (!yearMap.get(i).equals(monthMap.get(i))) {
-                    System.out.println("Расхождение в " + i + " месяце!");
+                    System.out.println("Расхождение в месяце " + monthName(i) + "!");
                     System.out.println("В годовом отчете сумма ---> " + yearMap.get(i));
                     System.out.println((monthMap.get(i) == null) ? ("Отчет за " + i + " месяц не считан!") : ("В месячном отчете сумма --> " + monthMap.get(i)));
                 }
@@ -40,6 +85,10 @@ public class ReportEngine {
     public void printMonthlyStatistics(HashMap<Integer, ArrayList<String>> map) {
         for (int i = 1; i <= map.size(); i++) {
             System.out.println("Статистика за " + monthName(i) + ":");
+            if (map.get(i).isEmpty()) {
+                System.out.println("Отчет за " + monthName(i) + " не считан!");
+                continue;
+            }
             String maxExpenseArticle = "";
             double maxExpense = 0;
             String maxProfitArticle = "";
